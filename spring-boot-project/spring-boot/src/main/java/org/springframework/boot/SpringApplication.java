@@ -309,29 +309,28 @@ public class SpringApplication {
 		ConfigurableApplicationContext context = null;
 		Collection<SpringBootExceptionReporter> exceptionReporters = new ArrayList<>();
 		configureHeadlessProperty();
-		SpringApplicationRunListeners listeners = getRunListeners(args);
-		listeners.starting();
+		SpringApplicationRunListeners listeners = getRunListeners(args);//初始化监听器
+		listeners.starting();// starting 状态：Called immediately when the run method has first started. Can be used for very early initialization
 		try {
-			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
-					args);
-			ConfigurableEnvironment environment = prepareEnvironment(listeners,
-					applicationArguments);
+			ApplicationArguments applicationArguments = new DefaultApplicationArguments(args);
+			ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
 			configureIgnoreBeanInfo(environment);
 			Banner printedBanner = printBanner(environment);
 			context = createApplicationContext();
 			exceptionReporters = getSpringFactoriesInstances(
 					SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
-			prepareContext(context, environment, listeners, applicationArguments,
-					printedBanner);
+			prepareContext(context, environment, listeners, applicationArguments, printedBanner);
 			refreshContext(context);
+			//TODO:为什么这个 afterRefresh 方法里面没有什么操作，但是还要写这个方法在这里？
 			afterRefresh(context, applicationArguments);
 			stopWatch.stop();
 			if (this.logStartupInfo) {
-				new StartupInfoLogger(this.mainApplicationClass)
-						.logStarted(getApplicationLog(), stopWatch);
+				new StartupInfoLogger(this.mainApplicationClass).logStarted(getApplicationLog(), stopWatch);
 			}
-			listeners.started(context);
+			//TODO: listeners 新版本增加了不同的状态
+			listeners.started(context); //started 状态：The context has been refreshed and the application has started but CommandLineRunner and ApplicationRunner have not been called.
+			//TODO: 为什么新版本的要在后面才调用方法 callRunners
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
@@ -340,7 +339,7 @@ public class SpringApplication {
 		}
 
 		try {
-			listeners.running(context);
+			listeners.running(context); //running 状态：Called immediately before the run method finishes, when the application context has been refreshed and all CommandLineRunner and ApplicationRunners have been called.
 		}
 		catch (Throwable ex) {
 			handleRunFailure(context, ex, exceptionReporters, null);
@@ -368,7 +367,7 @@ public class SpringApplication {
 	private void prepareContext(ConfigurableApplicationContext context,
 			ConfigurableEnvironment environment, SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments, Banner printedBanner) {
-		context.setEnvironment(environment);
+		context.setEnvironment(environment);	//设置环境
 		postProcessApplicationContext(context);
 		applyInitializers(context);
 		listeners.contextPrepared(context);
