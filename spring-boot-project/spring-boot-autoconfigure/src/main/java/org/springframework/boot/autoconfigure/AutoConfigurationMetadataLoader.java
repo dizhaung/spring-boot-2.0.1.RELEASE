@@ -28,11 +28,12 @@ import org.springframework.util.StringUtils;
 
 /**
  * Internal utility used to load {@link AutoConfigurationMetadata}.
- *
+ * 内部工具类：用来加载  AutoConfigurationMetadata
  * @author Phillip Webb
  */
 final class AutoConfigurationMetadataLoader {
 
+	//定义要加载的 AutoConfigurationMetadata 的文件路径
 	protected static final String PATH = "META-INF/"
 			+ "spring-autoconfigure-metadata.properties";
 
@@ -43,6 +44,7 @@ final class AutoConfigurationMetadataLoader {
 		return loadMetadata(classLoader, PATH);
 	}
 
+	//把 META-INF/spring-autoconfigure-metadata.properties 中的配置全捞出来
 	static AutoConfigurationMetadata loadMetadata(ClassLoader classLoader, String path) {
 		try {
 			Enumeration<URL> urls = (classLoader != null ? classLoader.getResources(path)

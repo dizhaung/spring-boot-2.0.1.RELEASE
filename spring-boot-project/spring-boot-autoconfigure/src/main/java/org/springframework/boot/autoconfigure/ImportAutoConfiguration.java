@@ -46,7 +46,7 @@ import org.springframework.core.annotation.AliasFor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(ImportAutoConfigurationImportSelector.class)
+@Import(ImportAutoConfigurationImportSelector.class)	//import ImportAutoConfigurationImportSelector 类
 public @interface ImportAutoConfiguration {
 
 	/**

@@ -47,12 +47,12 @@ import org.springframework.core.annotation.AliasFor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@SpringBootConfiguration
-@EnableAutoConfiguration
-@ComponentScan(excludeFilters = {
+@SpringBootConfiguration			//1
+@EnableAutoConfiguration			//2
+@ComponentScan(excludeFilters = {	//3
 		@Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
 		@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
-public @interface SpringBootApplication {
+public @interface SpringBootApplication {	//组合注解 same as @SpringBootConfiguration + @EnableAutoConfiguration + @ComponentScan
 
 	/**
 	 * Exclude specific auto-configuration classes such that they will never be applied.
